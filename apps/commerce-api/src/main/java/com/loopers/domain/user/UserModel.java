@@ -4,9 +4,13 @@ import com.loopers.domain.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 @Entity
 @Table(name = "user")
+@Builder
+@AllArgsConstructor
 public class UserModel extends BaseEntity {
 
   private String userId;
