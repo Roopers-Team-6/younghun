@@ -58,5 +58,16 @@ public class UserModelTest {
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
+
+    @DisplayName("ID는 공백으로 생성할 수 없습니다.")
+    @Test
+    void throwsBadRequestException_whenIdIsBlank() {
+      // arrange
+      String userId = "  ";
+      // act
+      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId));
+      // assert
+      assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
+    }
   }
 }
