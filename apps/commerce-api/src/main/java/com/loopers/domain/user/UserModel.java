@@ -6,6 +6,9 @@ import com.loopers.support.error.ErrorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 import lombok.Builder;
 
 @Entity
@@ -40,8 +43,28 @@ public class UserModel extends BaseEntity {
       throw new CoreException(ErrorType.BAD_REQUEST, "현재 등록된 이메일 패턴과 다릅니다.");
     }
 
+    if (!isValidBirth(birthday)) {
+      throw new CoreException(ErrorType.BAD_REQUEST, "생년월일 형식은 yyyy-MM-dd 이어야 하며, 유효한 날짜여야 합니다.");
+    }
+
     this.userId = userId;
     this.email = email;
+  }
+
+
+  private boolean isValidBirth(String birthday) {
+    DateTimeFormatter BIRTH_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        .withResolverStyle(ResolverStyle.STRICT);
+
+    if (birthday == null) {
+      return false;
+    }
+    try {
+      LocalDate.parse(birthday, BIRTH_FMT);
+      return true;
+    } catch (DateTimeParseException ex) {
+      return false;
+    }
   }
 
   public String getUserId() {
