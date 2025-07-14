@@ -21,8 +21,9 @@ public class UserModelTest {
     void createUser_alphabeticIdUnderMaxLength_createsUserSuccessfully() {
       // arrange
       String userId = "useruserId";
+      String email = "email@email.com";
       // act
-      UserModel userModel = new UserModel(userId);
+      UserModel userModel = new UserModel(userId, email);
       // assert
       assertThat(userModel.getUserId().length()).isLessThanOrEqualTo(10);
     }
@@ -32,8 +33,9 @@ public class UserModelTest {
     void createUser_numberIdUnderMaxLength_createsUserSuccessfully() {
       // arrange
       String userId = "0123456789";
+      String email = "email@email.com";
       // act
-      UserModel userModel = new UserModel(userId);
+      UserModel userModel = new UserModel(userId, email);
       // assert
       assertThat(userModel.getUserId().length()).isLessThanOrEqualTo(10);
     }
@@ -43,8 +45,9 @@ public class UserModelTest {
     void createUser_mixedIdUnderMaxLength_createsUserSuccessfully() {
       // arrange
       String userId = "userI12345";
+      String email = "email@email.com";
       // act
-      UserModel userModel = new UserModel(userId);
+      UserModel userModel = new UserModel(userId, email);
       // assert
       assertThat(userModel.getUserId().length()).isLessThanOrEqualTo(10);
     }
@@ -54,8 +57,9 @@ public class UserModelTest {
     void createUser_nonAlphanumericOrTooLongId_throwsIllegalArgumentException() {
       // arrange
       String userId = "userI123456";
+      String email = "email@email.com";
       // act
-      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId));
+      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email));
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
@@ -65,8 +69,9 @@ public class UserModelTest {
     void throwsBadRequestException_whenIdIsBlank() {
       // arrange
       String userId = "  ";
+      String email = "email@email.com";
       // act
-      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId));
+      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email));
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
@@ -76,8 +81,9 @@ public class UserModelTest {
     void throwsBadRequestException_whenIdIsDifferentWord() {
       // arrange
       String userId = "#@!$]";
+      String email = "email@email.com";
       // act
-      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId));
+      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email));
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
