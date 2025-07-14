@@ -49,6 +49,7 @@ public class UserModel extends BaseEntity {
 
     this.userId = userId;
     this.email = email;
+    this.birthday = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
   }
 
 
