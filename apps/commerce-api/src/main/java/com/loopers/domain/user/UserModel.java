@@ -38,6 +38,10 @@ public class UserModel extends BaseEntity {
       throw new CoreException(ErrorType.BAD_REQUEST, "아이디는 10자를 초과할 수 없습니다.");
     }
 
+    if(!email.matches("^[a-z]+@[a-z]+\\.[a-z]{2,}$")) {
+      throw new CoreException(ErrorType.BAD_REQUEST, "현재 등록된 이메일 패턴과 다릅니다.");
+    }
+
     this.userId = userId;
   }
 
