@@ -30,7 +30,7 @@ public class UserModel extends BaseEntity {
       throw new CoreException(ErrorType.BAD_REQUEST, "아이디는 공백으로 생성할 수 없습니다.");
     }
 
-    if(!userId.matches("[A-Za-z0-9]")) {
+    if(!userId.matches("^[A-Za-z0-9]+$")) {
       throw new CoreException(ErrorType.BAD_REQUEST, "아이디는 숫자 혹은 알파벳으로만 만들수 있습니다.");
     }
 
