@@ -43,6 +43,7 @@ public class UserModel extends BaseEntity {
     }
 
     this.userId = userId;
+    this.email = email;
   }
 
   public String getUserId() {
