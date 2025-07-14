@@ -26,6 +26,16 @@ public class UserModelTest {
       // assert
       assertThat(userModel.getUserId().length()).isLessThanOrEqualTo(10);
     }
-    
+    @DisplayName("ID가 숫자 10자 이내가 주어지면, 정상적으로 생성된다.")
+    @Test
+    void createUser_numberIdUnderMaxLength_createsUserSuccessfully() {
+      // arrange
+      String userId = "0123456789";
+      // act
+      UserModel userModel = new UserModel(userId);
+      // assert
+      assertThat(userModel.getUserId().length()).isLessThanOrEqualTo(10);
+    }
+
   }
 }
