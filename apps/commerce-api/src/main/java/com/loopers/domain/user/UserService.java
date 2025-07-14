@@ -1,5 +1,6 @@
 package com.loopers.domain.user;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ public class UserService {
 
   @Transactional
   public UserModel createUser(UserModel userModel) {
+    userRepository.duplicateUserId(userModel.getUserId());
     return userRepository.save(userModel);
   }
 }
