@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThrows;
 
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
+import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -99,6 +100,21 @@ public class UserModelTest {
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
+
+    @DisplayName("생년월일형식이 틀리면, BAD_REQUEST 예외가 발생합니다.")
+    @Test
+    void throwsBadRequestException_whenBirthIsWrongPattern() {
+      // arrange
+      String userId = "userId1";
+      String email = "email@email.com";
+      String birth = "wrong";
+
+      // act
+      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birth));
+      // assert
+      assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
+    }
+
 
   }
 }
