@@ -37,5 +37,15 @@ public class UserModelTest {
       assertThat(userModel.getUserId().length()).isLessThanOrEqualTo(10);
     }
 
+    @DisplayName("ID가 숫자와알파벳 혼합 10자 이내가 주어지면, 정상적으로 생성된다.")
+    @Test
+    void createUser_mixedIdUnderMaxLength_createsUserSuccessfully() {
+      // arrange
+      String userId = "userI12345";
+      // act
+      UserModel userModel = new UserModel(userId);
+      // assert
+      assertThat(userModel.getUserId().length()).isLessThanOrEqualTo(10);
+    }
   }
 }
