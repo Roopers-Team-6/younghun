@@ -6,13 +6,11 @@ import com.loopers.support.error.ErrorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 @Entity
 @Table(name = "user")
 @Builder
-@AllArgsConstructor
 public class UserModel extends BaseEntity {
 
   private String userId;
@@ -24,7 +22,7 @@ public class UserModel extends BaseEntity {
   public UserModel() {
   }
 
-  public UserModel(String userId, String email) {
+  public UserModel(String userId, String email, String birthday) {
 
     if (userId == null || userId.trim().isEmpty()) {
       throw new CoreException(ErrorType.BAD_REQUEST, "아이디는 공백으로 생성할 수 없습니다.");
@@ -38,7 +36,7 @@ public class UserModel extends BaseEntity {
       throw new CoreException(ErrorType.BAD_REQUEST, "아이디는 10자를 초과할 수 없습니다.");
     }
 
-    if(!email.matches("^[a-z]+@[a-z]+\\.[a-z]{2,}$")) {
+    if (!email.matches("^[a-z]+@[a-z]+\\.[a-z]{2,}$")) {
       throw new CoreException(ErrorType.BAD_REQUEST, "현재 등록된 이메일 패턴과 다릅니다.");
     }
 
