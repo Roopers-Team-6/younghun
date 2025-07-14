@@ -10,7 +10,6 @@ import lombok.Builder;
 
 @Entity
 @Table(name = "user")
-@Builder
 public class UserModel extends BaseEntity {
 
   private String userId;
@@ -22,6 +21,7 @@ public class UserModel extends BaseEntity {
   public UserModel() {
   }
 
+  @Builder
   public UserModel(String userId, String email, String birthday) {
 
     if (userId == null || userId.trim().isEmpty()) {
