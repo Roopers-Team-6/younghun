@@ -54,7 +54,7 @@ public class UserModel extends BaseEntity {
 
 
   private boolean isValidBirth(String birthday) {
-    DateTimeFormatter BIRTH_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    DateTimeFormatter BIRTH_FMT = DateTimeFormatter.ofPattern("uuuu-MM-dd")
         .withResolverStyle(ResolverStyle.STRICT);
 
     if (birthday == null) {
