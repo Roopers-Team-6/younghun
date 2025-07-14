@@ -36,7 +36,7 @@ public class UserServiceIntegrationTest {
   @Nested
   class Create {
 
-    @DisplayName("회원 가입시 User 저장이 수행된다.")
+    @DisplayName("User 저장이 수행된다.")
     @Test
     void returnsExampleInfo_saveUser() {
       // arrange
