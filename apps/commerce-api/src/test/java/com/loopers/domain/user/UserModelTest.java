@@ -26,6 +26,7 @@ public class UserModelTest {
       // assert
       assertThat(userModel.getUserId().length()).isLessThanOrEqualTo(10);
     }
+
     @DisplayName("ID가 숫자 10자 이내가 주어지면, 정상적으로 생성된다.")
     @Test
     void createUser_numberIdUnderMaxLength_createsUserSuccessfully() {
@@ -77,6 +78,18 @@ public class UserModelTest {
       String userId = "#@!$]";
       // act
       CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId));
+      // assert
+      assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
+    }
+
+    @DisplayName("이메일형식이 틀리면, BAD_REQUEST 예외가 발생합니다.")
+    @Test
+    void throwsBadRequestException_whenEmailIsWrongPattern() {
+      // arrange
+      String userId = "userId1";
+      String email = "email";
+      // act
+      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email));
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
