@@ -5,7 +5,6 @@ import static org.junit.Assert.assertThrows;
 
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
-import java.time.LocalDate;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -23,8 +22,9 @@ public class UserModelTest {
       // arrange
       String userId = "useruserId";
       String email = "email@email.com";
+      String birthday = "2020-01-01";
       // act
-      UserModel userModel = new UserModel(userId, email);
+      UserModel userModel = new UserModel(userId, email, birthday);
       // assert
       assertThat(userModel.getUserId().length()).isLessThanOrEqualTo(10);
     }
@@ -35,8 +35,9 @@ public class UserModelTest {
       // arrange
       String userId = "0123456789";
       String email = "email@email.com";
+      String birthday = "2020-01-01";
       // act
-      UserModel userModel = new UserModel(userId, email);
+      UserModel userModel = new UserModel(userId, email, birthday);
       // assert
       assertThat(userModel.getUserId().length()).isLessThanOrEqualTo(10);
     }
@@ -47,8 +48,9 @@ public class UserModelTest {
       // arrange
       String userId = "userI12345";
       String email = "email@email.com";
+      String birthday = "2020-01-01";
       // act
-      UserModel userModel = new UserModel(userId, email);
+      UserModel userModel = new UserModel(userId, email, birthday);
       // assert
       assertThat(userModel.getUserId().length()).isLessThanOrEqualTo(10);
     }
@@ -59,8 +61,9 @@ public class UserModelTest {
       // arrange
       String userId = "userI123456";
       String email = "email@email.com";
+      String birthday = "2020-01-01";
       // act
-      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email));
+      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birthday));
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
@@ -71,8 +74,9 @@ public class UserModelTest {
       // arrange
       String userId = "  ";
       String email = "email@email.com";
+      String birthday = "2020-01-01";
       // act
-      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email));
+      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birthday));
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
@@ -83,8 +87,9 @@ public class UserModelTest {
       // arrange
       String userId = "#@!$]";
       String email = "email@email.com";
+      String birthday = "2020-01-01";
       // act
-      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email));
+      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birthday));
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
@@ -95,8 +100,9 @@ public class UserModelTest {
       // arrange
       String userId = "userId1";
       String email = "email";
+      String birthday = "2020-01-01";
       // act
-      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email));
+      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birthday));
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
