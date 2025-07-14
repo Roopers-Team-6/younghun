@@ -47,5 +47,16 @@ public class UserModelTest {
       // assert
       assertThat(userModel.getUserId().length()).isLessThanOrEqualTo(10);
     }
+
+    @DisplayName("ID가 10자 초과시, BAD_REQUEST 예외가 발생한다.")
+    @Test
+    void createUser_nonAlphanumericOrTooLongId_throwsIllegalArgumentException() {
+      // arrange
+      String userId = "userI123456";
+      // act
+      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId));
+      // assert
+      assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
+    }
   }
 }
