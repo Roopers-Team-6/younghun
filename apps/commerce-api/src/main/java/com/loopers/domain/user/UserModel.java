@@ -22,6 +22,10 @@ public class UserModel extends BaseEntity {
   public UserModel() {
   }
 
+  public UserModel(String userId) {
+    this.userId = userId;
+  }
+
   public String getUserId() {
     return userId;
   }
