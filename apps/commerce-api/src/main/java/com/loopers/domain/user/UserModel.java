@@ -1,6 +1,8 @@
 package com.loopers.domain.user;
 
 import com.loopers.domain.BaseEntity;
+import com.loopers.support.error.CoreException;
+import com.loopers.support.error.ErrorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
@@ -23,6 +25,10 @@ public class UserModel extends BaseEntity {
   }
 
   public UserModel(String userId) {
+    if (userId.length() > 10) {
+      throw new CoreException(ErrorType.BAD_REQUEST, "아이디는 10자를 초과할 수 없습니다.");
+    }
+
     this.userId = userId;
   }
 
