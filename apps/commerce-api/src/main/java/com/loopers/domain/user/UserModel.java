@@ -25,6 +25,11 @@ public class UserModel extends BaseEntity {
   }
 
   public UserModel(String userId) {
+
+    if(userId == null || userId.trim().isEmpty()) {
+      throw new CoreException(ErrorType.BAD_REQUEST, "아이디는 공백으로 생성할 수 없습니다.");
+    }
+
     if (userId.length() > 10) {
       throw new CoreException(ErrorType.BAD_REQUEST, "아이디는 10자를 초과할 수 없습니다.");
     }
