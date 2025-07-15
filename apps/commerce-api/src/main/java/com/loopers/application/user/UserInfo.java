@@ -2,13 +2,14 @@ package com.loopers.application.user;
 
 import com.loopers.domain.user.UserModel;
 
-public record UserInfo(String userId, String email, String birthday) {
+public record UserInfo(String userId, String email, String birthday, String gender) {
 
   public static UserInfo from(UserModel model) {
     return new UserInfo(
         model.getUserId(),
         model.getEmail(),
-        model.getBirthday().toString()
+        model.getBirthday().toString(),
+        model.getGender()
     );
   }
 
@@ -17,6 +18,7 @@ public record UserInfo(String userId, String email, String birthday) {
         .userId(userId)
         .email(email)
         .birthday(birthday)
+        .gender(gender)
         .build();
   }
 }

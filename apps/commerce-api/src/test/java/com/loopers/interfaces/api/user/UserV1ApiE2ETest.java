@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.loopers.infrastructure.user.UserJpaRepository;
 import com.loopers.interfaces.api.ApiResponse;
+import com.loopers.interfaces.api.user.UserV1Dto.Gender;
 import com.loopers.interfaces.api.user.UserV1Dto.UserRequest;
 import com.loopers.interfaces.api.user.UserV1Dto.UserResponse;
 import com.loopers.utils.DatabaseCleanUp;
@@ -63,7 +64,7 @@ public class UserV1ApiE2ETest {
       String userId = "userId";
       String email = "test@test.com";
       String birth = "2010-01-01";
-      String gender = "M";
+      Gender gender = Gender.M;
       UserRequest userRequest = new UserRequest(userId, email, birth, gender);
       // act
       ParameterizedTypeReference<ApiResponse<UserResponse>> responseType = new ParameterizedTypeReference<>() {
@@ -76,7 +77,8 @@ public class UserV1ApiE2ETest {
           () -> assertThat(response.getBody().meta().result()).isEqualTo(SUCCESS),
           () -> assertThat(response.getBody().data().userId()).isEqualTo(userId),
           () -> assertThat(response.getBody().data().email()).isEqualTo(email),
-          () -> assertThat(response.getBody().data().birthday()).isEqualTo(birth)
+          () -> assertThat(response.getBody().data().birthday()).isEqualTo(birth),
+          () -> assertThat(response.getBody().data().gender()).isEqualTo(gender)
 
       );
 
@@ -89,7 +91,7 @@ public class UserV1ApiE2ETest {
       String userId = "userId";
       String email = "test@test.com";
       String birth = "2010-01-01";
-      String gender = null;
+      Gender gender = null;
 
       UserRequest userRequest = new UserRequest(userId, email, birth, gender);
       // act
@@ -100,8 +102,7 @@ public class UserV1ApiE2ETest {
       // assert
       assertAll(
           () -> assertThat(response.getStatusCode().is4xxClientError()).isTrue(),
-          () -> assertThat(response.getBody().meta().result()).isEqualTo(FAIL),
-          () -> assertThat(userRequest.gender()).isNull()
+          () -> assertThat(response.getBody().meta().result()).isEqualTo(FAIL)
       );
 
     }

@@ -1,27 +1,36 @@
 package com.loopers.interfaces.api.user;
 
 import com.loopers.application.user.UserInfo;
+import com.loopers.support.error.CoreException;
+import com.loopers.support.error.ErrorType;
+import jakarta.validation.constraints.NotNull;
 
 public class UserV1Dto {
 
-  public record UserRequest(String userId, String email, String birthday) {
+  public record UserRequest(String userId, String email,  String birthday, @NotNull Gender gender) {
 
     public UserInfo to() {
       return new UserInfo(
           userId,
           email,
-          birthday
+          birthday,
+          gender.toString()
       );
     }
   }
 
-  public record UserResponse(String userId, String email, String birthday) {
+  public record UserResponse(String userId, String email, String birthday, Gender gender) {
     public static UserResponse from(UserInfo info) {
       return new UserResponse(
           info.userId(),
           info.email(),
-          info.birthday()
+          info.birthday(),
+          Gender.valueOf(info.gender())
       );
     }
+  }
+
+  enum Gender {
+    M, F
   }
 }

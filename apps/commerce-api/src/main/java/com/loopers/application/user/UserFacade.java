@@ -1,8 +1,5 @@
 package com.loopers.application.user;
 
-import com.loopers.application.example.ExampleInfo;
-import com.loopers.domain.example.ExampleModel;
-import com.loopers.domain.example.ExampleService;
 import com.loopers.domain.user.UserModel;
 import com.loopers.domain.user.UserService;
 import lombok.RequiredArgsConstructor;

@@ -40,7 +40,7 @@ public class UserServiceIntegrationTest {
     @Test
     void returnsExampleInfo_saveUser() {
       // arrange
-      UserModel userModel = new UserModel("userId", "test@test.com", "2020-01-01");
+      UserModel userModel = new UserModel("userId", "test@test.com", "2020-01-01","F");
       // act
       userService.createUser(userModel);
       // assert
@@ -52,7 +52,7 @@ public class UserServiceIntegrationTest {
     @Test
     void throwsBadRequestException_saveUser_whenAlreadyId() {
       // arrange
-      UserModel userModel = new UserModel("userId", "test@test.com", "2020-01-01");
+      UserModel userModel = new UserModel("userId", "test@test.com", "2020-01-01","F");
       userService.createUser(userModel);
       // act
       CoreException result = assertThrows(CoreException.class, () -> userService.createUser(userModel));
