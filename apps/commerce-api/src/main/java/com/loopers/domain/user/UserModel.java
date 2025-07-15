@@ -21,11 +21,13 @@ public class UserModel extends BaseEntity {
 
   private LocalDate birthday;
 
+  private String gender;
+
   public UserModel() {
   }
 
   @Builder
-  public UserModel(String userId, String email, String birthday) {
+  public UserModel(String userId, String email, String birthday, String gender) {
 
     if (userId == null || userId.trim().isEmpty()) {
       throw new CoreException(ErrorType.BAD_REQUEST, "아이디는 공백으로 생성할 수 없습니다.");
@@ -50,6 +52,7 @@ public class UserModel extends BaseEntity {
     this.userId = userId;
     this.email = email;
     this.birthday = LocalDate.parse(birthday, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    this.gender = gender;
   }
 
 
@@ -90,5 +93,13 @@ public class UserModel extends BaseEntity {
 
   public void setBirthday(LocalDate birthday) {
     this.birthday = birthday;
+  }
+
+  public String getGender() {
+    return gender;
+  }
+
+  public void setGender(String gender) {
+    this.gender = gender;
   }
 }

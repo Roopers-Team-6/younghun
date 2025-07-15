@@ -23,8 +23,9 @@ public class UserModelTest {
       String userId = "useruserId";
       String email = "email@email.com";
       String birthday = "2020-01-01";
+      String gender = "M";
       // act
-      UserModel userModel = new UserModel(userId, email, birthday);
+      UserModel userModel = new UserModel(userId, email, birthday, gender);
       // assert
       assertThat(userModel.getUserId().length()).isLessThanOrEqualTo(10);
     }
@@ -36,8 +37,9 @@ public class UserModelTest {
       String userId = "0123456789";
       String email = "email@email.com";
       String birthday = "2020-01-01";
+      String gender = "M";
       // act
-      UserModel userModel = new UserModel(userId, email, birthday);
+      UserModel userModel = new UserModel(userId, email, birthday, gender);
       // assert
       assertThat(userModel.getUserId().length()).isLessThanOrEqualTo(10);
     }
@@ -49,8 +51,9 @@ public class UserModelTest {
       String userId = "userI12345";
       String email = "email@email.com";
       String birthday = "2020-01-01";
+      String gender = "M";
       // act
-      UserModel userModel = new UserModel(userId, email, birthday);
+      UserModel userModel = new UserModel(userId, email, birthday, gender);
       // assert
       assertThat(userModel.getUserId().length()).isLessThanOrEqualTo(10);
     }
@@ -62,8 +65,9 @@ public class UserModelTest {
       String userId = "userI123456";
       String email = "email@email.com";
       String birthday = "2020-01-01";
+      String gender = "M";
       // act
-      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birthday));
+      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birthday, gender));
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
@@ -75,8 +79,9 @@ public class UserModelTest {
       String userId = "  ";
       String email = "email@email.com";
       String birthday = "2020-01-01";
+      String gender = "M";
       // act
-      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birthday));
+      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birthday, gender));
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
@@ -88,8 +93,9 @@ public class UserModelTest {
       String userId = "#@!$]";
       String email = "email@email.com";
       String birthday = "2020-01-01";
+      String gender = "M";
       // act
-      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birthday));
+      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birthday, gender));
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
@@ -101,8 +107,9 @@ public class UserModelTest {
       String userId = "userId1";
       String email = "email";
       String birthday = "2020-01-01";
+      String gender = "M";
       // act
-      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birthday));
+      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birthday, gender));
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
@@ -114,9 +121,9 @@ public class UserModelTest {
       String userId = "userId1";
       String email = "email@email.com";
       String birth = "wrong";
-
+      String gender = "M";
       // act
-      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birth));
+      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birth, gender));
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
