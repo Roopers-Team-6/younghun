@@ -1,5 +1,6 @@
 package com.loopers.interfaces.api.user;
 
+import static com.loopers.interfaces.api.ApiResponse.Metadata.Result.FAIL;
 import static com.loopers.interfaces.api.ApiResponse.Metadata.Result.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -47,8 +48,7 @@ public class UserV1ApiE2ETest {
 
 
   /**
-   * - [X]  회원 가입이 성공할 경우, 생성된 유저 정보를 응답으로 반환한다.
-   * - [ ]  회원 가입 시에 성별이 없을 경우, `400 Bad Request` 응답을 반환한다.
+   * - [X]  회원 가입이 성공할 경우, 생성된 유저 정보를 응답으로 반환한다. - [ ]  회원 가입 시에 성별이 없을 경우, `400 Bad Request` 응답을 반환한다.
    */
 
   @DisplayName("POST /api/v1/users")
@@ -63,8 +63,8 @@ public class UserV1ApiE2ETest {
       String userId = "userId";
       String email = "test@test.com";
       String birth = "2010-01-01";
-
-      UserRequest userRequest = new UserRequest(userId, email, birth);
+      String gender = "M";
+      UserRequest userRequest = new UserRequest(userId, email, birth, gender);
       // act
       ParameterizedTypeReference<ApiResponse<UserResponse>> responseType = new ParameterizedTypeReference<>() {
       };
@@ -78,6 +78,30 @@ public class UserV1ApiE2ETest {
           () -> assertThat(response.getBody().data().email()).isEqualTo(email),
           () -> assertThat(response.getBody().data().birthday()).isEqualTo(birth)
 
+      );
+
+    }
+
+    @DisplayName("회원 가입 시에 성별이 없을 경우, `400 Bad Request` 응답을 반환한다.")
+    @Test
+    void return400BadResuest_whenJoinedUserGender() {
+      //arrange
+      String userId = "userId";
+      String email = "test@test.com";
+      String birth = "2010-01-01";
+      String gender = null;
+
+      UserRequest userRequest = new UserRequest(userId, email, birth, gender);
+      // act
+      ParameterizedTypeReference<ApiResponse<UserResponse>> responseType = new ParameterizedTypeReference<>() {
+      };
+      ResponseEntity<ApiResponse<UserResponse>> response =
+          testRestTemplate.exchange(ENDPOINT_JOIN, HttpMethod.POST, new HttpEntity<>(userRequest, null), responseType);
+      // assert
+      assertAll(
+          () -> assertThat(response.getStatusCode().is4xxClientError()).isTrue(),
+          () -> assertThat(response.getBody().meta().result()).isEqualTo(FAIL),
+          () -> assertThat(userRequest.gender()).isNull()
       );
 
     }
