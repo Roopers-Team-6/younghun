@@ -8,6 +8,8 @@ import com.loopers.support.error.ErrorType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -118,6 +120,21 @@ public class ApiControllerAdvice {
         Matcher matcher = pattern.matcher(message);
         return matcher.find() ? matcher.group(1) : "";
     }
+
+  /**
+   * DTO 검증(@NotNull, @Size 등) 실패 시 이 메서드가 호출됩니다.
+   */
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<ApiResponse<?>> handleValidation(MethodArgumentNotValidException e) {
+    // 첫 번째 FieldError만 취합
+    FieldError error = e.getBindingResult().getFieldErrors().get(0);
+    String field = error.getField();
+    String defaultMessage = error.getDefaultMessage();
+
+    String message = String.format("필드 '%s' : %s", field, defaultMessage);
+    log.warn("Validation failed: {}", message);
+    return failureResponse(ErrorType.BAD_REQUEST, message);
+  }
 
     private ResponseEntity<ApiResponse<?>> failureResponse(ErrorType errorType, String errorMessage) {
         return ResponseEntity.status(errorType.getStatus())
