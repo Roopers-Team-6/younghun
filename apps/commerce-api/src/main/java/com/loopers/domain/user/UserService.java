@@ -19,6 +19,8 @@ public class UserService {
 
   public UserModel getUser(String userId) {
     Optional<UserModel> userOptional = userRepository.findByUserId(userId);
-    return userOptional.get();
+
+    return userOptional.orElse(null);
+
   }
 }

@@ -91,6 +91,19 @@ public class UserServiceIntegrationTest {
       );
     }
 
+    @DisplayName("해당 ID 의 회원이 존재하지 않을 경우, null 이 반환된다.")
+    @Test
+    void returns_null_when_emptyUser() {
+      // arrange
+      String userId = "my";
+     // act
+      UserModel userModel = userService.getUser(userId);
+      // assert
+      assertAll(
+          () -> assertThat(userModel).isNull()
+      );
+    }
+
 
 
   }

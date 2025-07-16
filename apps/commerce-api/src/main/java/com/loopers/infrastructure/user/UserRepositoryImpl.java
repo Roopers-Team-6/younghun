@@ -30,6 +30,11 @@ public class UserRepositoryImpl implements UserRepository {
   @Override
   public Optional<UserModel> findByUserId(String userId) {
     List<UserModel> user = repository.findByUserId(userId);
+
+    if(user.isEmpty()) {
+      return Optional.empty();
+    }
+
     return Optional.of(user.get(0));
   }
 }
