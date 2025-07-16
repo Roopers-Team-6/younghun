@@ -5,6 +5,7 @@ import static com.loopers.interfaces.api.ApiResponse.Metadata.Result.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.loopers.domain.user.UserModel;
 import com.loopers.infrastructure.user.UserJpaRepository;
 import com.loopers.interfaces.api.ApiResponse;
 import com.loopers.interfaces.api.user.UserV1Dto.Gender;
@@ -128,6 +129,7 @@ public class UserV1ApiE2ETest {
       String email = "test@test.com";
       String birth = "2010-01-01";
       Gender gender = Gender.F;
+      userJpaRepository.save(new UserModel(userId, email, birth, gender.toString()));
 
       //act
       ParameterizedTypeReference<ApiResponse<UserResponse>> responseType = new ParameterizedTypeReference<>() {
@@ -151,6 +153,11 @@ public class UserV1ApiE2ETest {
     @Test
     void returnNotFoundException_when_retrieve_not_exits_id() {
       //arrange
+      String userId = "test";
+      String email = "test@test.com";
+      String birth = "2010-01-01";
+      Gender gender = Gender.F;
+      userJpaRepository.save(new UserModel(userId, email, birth, gender.toString()));
 
       //act
       ParameterizedTypeReference<ApiResponse<UserResponse>> responseType = new ParameterizedTypeReference<>() {

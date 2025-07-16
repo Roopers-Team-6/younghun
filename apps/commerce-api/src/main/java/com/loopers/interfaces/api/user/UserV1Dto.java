@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 public class UserV1Dto {
 
-  public record UserRequest(String userId, String email,  String birthday, @NotNull Gender gender) {
+  public record UserRequest(String userId, String email, String birthday, @NotNull Gender gender) {
 
     public UserInfo to() {
       return new UserInfo(
@@ -31,6 +31,14 @@ public class UserV1Dto {
   }
 
   public record UserGetResponse(String userId, String email, String birthday, Gender gender) {
+    public static UserGetResponse from(UserInfo user) {
+      return new UserGetResponse(
+          user.userId(),
+          user.email(),
+          user.birthday(),
+          Gender.valueOf(user.gender())
+      );
+    }
   }
 
   enum Gender {
