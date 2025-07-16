@@ -2,6 +2,7 @@ package com.loopers.domain.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.loopers.infrastructure.user.UserJpaRepository;
 import com.loopers.support.error.CoreException;
@@ -59,6 +60,49 @@ public class UserServiceIntegrationTest {
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
+
+  }
+
+  @DisplayName("계정조회를 했을때, ")
+  @Nested
+  class Get {
+
+    /**
+     * - [ ]  해당 ID 의 회원이 존재할 경우, 회원 정보가 반환된다.
+     * - [ ]  해당 ID 의 회원이 존재하지 않을 경우, null 이 반환된다.
+     */
+
+    @DisplayName("해당 ID 의 회원이 존재할 경우, 회원 정보가 반환된다.")
+    @Test
+    void returns_userInfo_whenRetire() {
+      // arrange
+      String userId = "my";
+      userService.createUser(new UserModel("my", "test@test.com", "2020-01-01","F"));
+      // act
+      UserModel userModel = userService.getUser(userId);
+      // assert
+      assertAll(
+          () -> assertThat(userModel.getUserId()).isNotNull(),
+          () -> assertThat(userModel.getEmail()).isNotNull(),
+          () -> assertThat(userModel.getBirthday()).isNotNull(),
+          () -> assertThat(userModel.getGender()).isNotNull()
+      );
+    }
+
+    @DisplayName("해당 ID 의 회원이 존재하지 않을 경우, null 이 반환된다.")
+    @Test
+    void returns_null_when_emptyUser() {
+      // arrange
+      String userId = "my";
+     // act
+      UserModel userModel = userService.getUser(userId);
+      // assert
+      assertAll(
+          () -> assertThat(userModel).isNull()
+      );
+    }
+
+
 
   }
 }

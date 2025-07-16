@@ -16,4 +16,15 @@ public interface UserV1ApiSpec {
       @Schema(name = "회원가입 정보", description = "회원가입을 하게 되는 계정의 정보")
       UserV1Dto.UserRequest request
   );
+
+  @Operation(
+      summary = "계정조회",
+      description = "계정조회를 합니다."
+  )
+  ApiResponse<UserV1Dto.UserGetResponse> getUser(
+      @Schema(name = "계정 조회", description = "조회하게 되는 계정의 정보")
+      String userId
+  );
+
+
 }

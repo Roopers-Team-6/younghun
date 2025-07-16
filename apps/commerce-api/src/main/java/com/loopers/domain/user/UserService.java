@@ -16,4 +16,11 @@ public class UserService {
     userRepository.duplicateUserId(userModel.getUserId());
     return userRepository.save(userModel);
   }
+
+  public UserModel getUser(String userId) {
+    Optional<UserModel> userOptional = userRepository.findByUserId(userId);
+
+    return userOptional.orElse(null);
+
+  }
 }
