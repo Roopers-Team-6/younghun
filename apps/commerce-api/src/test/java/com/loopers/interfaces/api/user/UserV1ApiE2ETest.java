@@ -146,5 +146,24 @@ public class UserV1ApiE2ETest {
 
       );
     }
+
+    @DisplayName("존재하지 않는 ID 로 조회할 경우, `404 Not Found` 응답을 반환한다.")
+    @Test
+    void returnNotFoundException_when_retrieve_not_exits_id() {
+      //arrange
+
+      //act
+      ParameterizedTypeReference<ApiResponse<UserResponse>> responseType = new ParameterizedTypeReference<>() {
+      };
+
+      ResponseEntity<ApiResponse<UserResponse>> response =
+          testRestTemplate.exchange(ENDPOINT_GET.apply("my"), HttpMethod.GET, new HttpEntity<>(null), responseType);
+      //assert
+      assertAll(
+          () -> assertThat(response.getStatusCode().is4xxClientError()).isTrue(),
+          () -> assertThat(response.getBody().meta().result()).isEqualTo(FAIL)
+
+      );
+    }
   }
 }
