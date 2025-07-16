@@ -5,26 +5,28 @@ import jakarta.validation.constraints.NotNull;
 
 public class UserV1Dto {
 
-  public record UserRequest(String userId, String email, String birthday, @NotNull Gender gender) {
+  class Resister {
+    public record UserRequest(String userId, String email, String birthday, @NotNull Gender gender) {
 
-    public UserInfo to() {
-      return new UserInfo(
-          userId,
-          email,
-          birthday,
-          gender.toString()
-      );
+      public UserInfo to() {
+        return new UserInfo(
+            userId,
+            email,
+            birthday,
+            gender.toString()
+        );
+      }
     }
-  }
 
-  public record UserResponse(String userId, String email, String birthday, Gender gender) {
-    public static UserResponse from(UserInfo info) {
-      return new UserResponse(
-          info.userId(),
-          info.email(),
-          info.birthday(),
-          Gender.valueOf(info.gender())
-      );
+    public record UserResponse(String userId, String email, String birthday, Gender gender) {
+      public static UserResponse from(UserInfo info) {
+        return new UserResponse(
+            info.userId(),
+            info.email(),
+            info.birthday(),
+            Gender.valueOf(info.gender())
+        );
+      }
     }
   }
 

@@ -14,7 +14,7 @@ public class UserModelTest {
 
   @DisplayName("회원가입을 했을때, ")
   @Nested
-  class Create {
+  class JoinTest {
 
     @DisplayName("ID가 영문 10자 이내, 정상적으로 생성된다.")
     @Test

@@ -12,9 +12,9 @@ public interface UserV1ApiSpec {
       summary = "회원가입",
       description = "회원가입을 합니다."
   )
-  ApiResponse<UserV1Dto.UserResponse> createUser(
+  ApiResponse<UserV1Dto.Resister.UserResponse> createUser(
       @Schema(name = "회원가입 정보", description = "회원가입을 하게 되는 계정의 정보")
-      UserV1Dto.UserRequest request
+      UserV1Dto.Resister.UserRequest request
   );
 
   @Operation(
