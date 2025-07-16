@@ -12,7 +12,6 @@ import com.loopers.interfaces.api.user.UserV1Dto.Gender;
 import com.loopers.interfaces.api.user.UserV1Dto.UserRequest;
 import com.loopers.interfaces.api.user.UserV1Dto.UserResponse;
 import com.loopers.utils.DatabaseCleanUp;
-import java.util.function.Function;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -22,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
@@ -115,10 +115,10 @@ public class UserV1ApiE2ETest {
    * - [ ]  내 정보 조회에 성공할 경우, 해당하는 유저 정보를 응답으로 반환한다. - [ ]  존재하지 않는 ID 로 조회할 경우, `404 Not Found` 응답을 반환한다.
    */
 
-  @DisplayName("GET /api/v1/users/{id}")
+  @DisplayName("GET /api/v1/users/me")
   @Nested
   class Get {
-    private static final Function<String, String> ENDPOINT_GET = id -> "/api/v1/users/" + id;
+    private static final String ENDPOINT_GET = "/api/v1/users/me";
 
     @DisplayName("내 정보 조회에 성공할 경우, 해당하는 유저 정보를 응답으로 반환한다.")
     @Test
@@ -134,8 +134,11 @@ public class UserV1ApiE2ETest {
       ParameterizedTypeReference<ApiResponse<UserResponse>> responseType = new ParameterizedTypeReference<>() {
       };
 
+      HttpHeaders headers = new HttpHeaders();
+      headers.add("X-USER-ID", "my");
+
       ResponseEntity<ApiResponse<UserResponse>> response =
-          testRestTemplate.exchange(ENDPOINT_GET.apply("my"), HttpMethod.GET, new HttpEntity<>(null), responseType);
+          testRestTemplate.exchange(ENDPOINT_GET, HttpMethod.GET, new HttpEntity<>(headers), responseType);
       //assert
       assertAll(
           () -> assertThat(response.getStatusCode().is2xxSuccessful()).isTrue(),
@@ -162,8 +165,11 @@ public class UserV1ApiE2ETest {
       ParameterizedTypeReference<ApiResponse<UserResponse>> responseType = new ParameterizedTypeReference<>() {
       };
 
+      HttpHeaders headers = new HttpHeaders();
+      headers.add("X-USER-ID", "my");
+
       ResponseEntity<ApiResponse<UserResponse>> response =
-          testRestTemplate.exchange(ENDPOINT_GET.apply("my"), HttpMethod.GET, new HttpEntity<>(null), responseType);
+          testRestTemplate.exchange(ENDPOINT_GET, HttpMethod.GET, new HttpEntity<>(headers), responseType);
       //assert
       assertAll(
           () -> assertThat(response.getStatusCode().is4xxClientError()).isTrue(),
