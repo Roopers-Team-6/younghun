@@ -1,6 +1,5 @@
 package com.loopers.domain.user;
 
-import static com.loopers.interfaces.api.ApiResponse.Metadata.Result.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -9,7 +8,6 @@ import com.loopers.infrastructure.user.UserJpaRepository;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import com.loopers.utils.DatabaseCleanUp;
-import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

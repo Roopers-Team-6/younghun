@@ -3,7 +3,6 @@ package com.loopers.interfaces.api.user;
 import com.loopers.application.user.UserFacade;
 import com.loopers.application.user.UserInfo;
 import com.loopers.interfaces.api.ApiResponse;
-import com.loopers.interfaces.api.user.UserV1Dto.Gender;
 import com.loopers.interfaces.api.user.UserV1Dto.UserGetResponse;
 import com.loopers.interfaces.api.user.UserV1Dto.UserResponse;
 import lombok.RequiredArgsConstructor;

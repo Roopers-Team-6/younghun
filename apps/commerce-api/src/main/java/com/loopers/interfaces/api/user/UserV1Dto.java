@@ -1,8 +1,6 @@
 package com.loopers.interfaces.api.user;
 
 import com.loopers.application.user.UserInfo;
-import com.loopers.support.error.CoreException;
-import com.loopers.support.error.ErrorType;
 import jakarta.validation.constraints.NotNull;
 
 public class UserV1Dto {
