@@ -30,6 +30,9 @@ public class UserV1Dto {
     }
   }
 
+  public record UserGetResponse(String userId, String email, String birthday, Gender gender) {
+  }
+
   enum Gender {
     M, F
   }

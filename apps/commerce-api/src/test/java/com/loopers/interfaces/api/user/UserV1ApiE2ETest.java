@@ -11,6 +11,7 @@ import com.loopers.interfaces.api.user.UserV1Dto.Gender;
 import com.loopers.interfaces.api.user.UserV1Dto.UserRequest;
 import com.loopers.interfaces.api.user.UserV1Dto.UserResponse;
 import com.loopers.utils.DatabaseCleanUp;
+import java.util.function.Function;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -20,6 +21,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 
@@ -107,5 +109,42 @@ public class UserV1ApiE2ETest {
 
     }
 
+  }
+
+  /**
+   * - [ ]  내 정보 조회에 성공할 경우, 해당하는 유저 정보를 응답으로 반환한다. - [ ]  존재하지 않는 ID 로 조회할 경우, `404 Not Found` 응답을 반환한다.
+   */
+
+  @DisplayName("GET /api/v1/users/{id}")
+  @Nested
+  class Get {
+    private static final Function<String, String> ENDPOINT_GET = id -> "/api/v1/users/" + id;
+
+    @DisplayName("내 정보 조회에 성공할 경우, 해당하는 유저 정보를 응답으로 반환한다.")
+    @Test
+    void returnUserInfo_when_my_information_retrieve() {
+      //arrange
+      String userId = "my";
+      String email = "test@test.com";
+      String birth = "2010-01-01";
+      Gender gender = Gender.F;
+
+      //act
+      ParameterizedTypeReference<ApiResponse<UserResponse>> responseType = new ParameterizedTypeReference<>() {
+      };
+
+      ResponseEntity<ApiResponse<UserResponse>> response =
+          testRestTemplate.exchange(ENDPOINT_GET.apply("my"), HttpMethod.GET, new HttpEntity<>(null), responseType);
+      //assert
+      assertAll(
+          () -> assertThat(response.getStatusCode().is2xxSuccessful()).isTrue(),
+          () -> assertThat(response.getBody().meta().result()).isEqualTo(SUCCESS),
+          () -> assertThat(response.getBody().data().userId()).isEqualTo(userId),
+          () -> assertThat(response.getBody().data().email()).isEqualTo(email),
+          () -> assertThat(response.getBody().data().birthday()).isEqualTo(birth),
+          () -> assertThat(response.getBody().data().gender()).isEqualTo(gender)
+
+      );
+    }
   }
 }
