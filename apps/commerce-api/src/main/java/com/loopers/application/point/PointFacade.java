@@ -1,6 +1,5 @@
 package com.loopers.application.point;
 
-import com.loopers.application.user.UserInfo;
 import com.loopers.domain.point.PointModel;
 import com.loopers.domain.point.PointService;
 import lombok.RequiredArgsConstructor;
