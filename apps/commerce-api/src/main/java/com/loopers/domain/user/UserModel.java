@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.format.ResolverStyle;
-import lombok.Builder;
 
 @Entity
 @Table(name = "user")
@@ -26,7 +25,6 @@ public class UserModel extends BaseEntity {
   public UserModel() {
   }
 
-  @Builder
   public UserModel(String userId, String email, String birthday, String gender) {
 
     if (userId == null || userId.trim().isEmpty()) {

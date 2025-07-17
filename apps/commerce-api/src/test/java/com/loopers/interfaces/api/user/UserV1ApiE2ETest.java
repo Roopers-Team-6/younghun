@@ -9,8 +9,7 @@ import com.loopers.domain.user.UserModel;
 import com.loopers.infrastructure.user.UserJpaRepository;
 import com.loopers.interfaces.api.ApiResponse;
 import com.loopers.interfaces.api.user.UserV1Dto.Gender;
-import com.loopers.interfaces.api.user.UserV1Dto.UserRequest;
-import com.loopers.interfaces.api.user.UserV1Dto.UserResponse;
+import com.loopers.interfaces.api.user.UserV1Dto.Resister;
 import com.loopers.utils.DatabaseCleanUp;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -56,7 +55,7 @@ public class UserV1ApiE2ETest {
 
   @DisplayName("POST /api/v1/users")
   @Nested
-  class Create {
+  class Register {
     private static final String ENDPOINT_JOIN = "/api/v1/users";
 
     @DisplayName("회원 가입이 성공할 경우, 생성된 유저 정보를 응답으로 반환한다.")
@@ -67,11 +66,11 @@ public class UserV1ApiE2ETest {
       String email = "test@test.com";
       String birth = "2010-01-01";
       Gender gender = Gender.M;
-      UserRequest userRequest = new UserRequest(userId, email, birth, gender);
+      Resister.UserRequest userRequest = new Resister.UserRequest(userId, email, birth, gender);
       // act
-      ParameterizedTypeReference<ApiResponse<UserResponse>> responseType = new ParameterizedTypeReference<>() {
+      ParameterizedTypeReference<ApiResponse<Resister.UserResponse>> responseType = new ParameterizedTypeReference<>() {
       };
-      ResponseEntity<ApiResponse<UserResponse>> response =
+      ResponseEntity<ApiResponse<Resister.UserResponse>> response =
           testRestTemplate.exchange(ENDPOINT_JOIN, HttpMethod.POST, new HttpEntity<>(userRequest, null), responseType);
       // assert
       assertAll(
@@ -95,11 +94,11 @@ public class UserV1ApiE2ETest {
       String birth = "2010-01-01";
       Gender gender = null;
 
-      UserRequest userRequest = new UserRequest(userId, email, birth, gender);
+      Resister.UserRequest userRequest = new Resister.UserRequest(userId, email, birth, gender);
       // act
-      ParameterizedTypeReference<ApiResponse<UserResponse>> responseType = new ParameterizedTypeReference<>() {
+      ParameterizedTypeReference<ApiResponse<Resister.UserResponse>> responseType = new ParameterizedTypeReference<>() {
       };
-      ResponseEntity<ApiResponse<UserResponse>> response =
+      ResponseEntity<ApiResponse<Resister.UserResponse>> response =
           testRestTemplate.exchange(ENDPOINT_JOIN, HttpMethod.POST, new HttpEntity<>(userRequest, null), responseType);
       // assert
       assertAll(
@@ -131,13 +130,13 @@ public class UserV1ApiE2ETest {
       userJpaRepository.save(new UserModel(userId, email, birth, gender.toString()));
 
       //act
-      ParameterizedTypeReference<ApiResponse<UserResponse>> responseType = new ParameterizedTypeReference<>() {
+      ParameterizedTypeReference<ApiResponse<Resister.UserResponse>> responseType = new ParameterizedTypeReference<>() {
       };
 
       HttpHeaders headers = new HttpHeaders();
       headers.add("X-USER-ID", "my");
 
-      ResponseEntity<ApiResponse<UserResponse>> response =
+      ResponseEntity<ApiResponse<Resister.UserResponse>> response =
           testRestTemplate.exchange(ENDPOINT_GET, HttpMethod.GET, new HttpEntity<>(headers), responseType);
       //assert
       assertAll(
@@ -162,13 +161,13 @@ public class UserV1ApiE2ETest {
       userJpaRepository.save(new UserModel(userId, email, birth, gender.toString()));
 
       //act
-      ParameterizedTypeReference<ApiResponse<UserResponse>> responseType = new ParameterizedTypeReference<>() {
+      ParameterizedTypeReference<ApiResponse<Resister.UserResponse>> responseType = new ParameterizedTypeReference<>() {
       };
 
       HttpHeaders headers = new HttpHeaders();
       headers.add("X-USER-ID", "my");
 
-      ResponseEntity<ApiResponse<UserResponse>> response =
+      ResponseEntity<ApiResponse<Resister.UserResponse>> response =
           testRestTemplate.exchange(ENDPOINT_GET, HttpMethod.GET, new HttpEntity<>(headers), responseType);
       //assert
       assertAll(

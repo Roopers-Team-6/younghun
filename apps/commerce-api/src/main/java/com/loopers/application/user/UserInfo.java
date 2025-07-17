@@ -14,11 +14,10 @@ public record UserInfo(String userId, String email, String birthday, String gend
   }
 
   public UserModel toModel() {
-    return UserModel.builder()
-        .userId(userId)
-        .email(email)
-        .birthday(birthday)
-        .gender(gender)
-        .build();
+    return new UserModel(
+        userId,
+        email,
+        birthday,
+        gender);
   }
 }

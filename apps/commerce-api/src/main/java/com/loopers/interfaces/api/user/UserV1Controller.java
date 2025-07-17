@@ -4,7 +4,6 @@ import com.loopers.application.user.UserFacade;
 import com.loopers.application.user.UserInfo;
 import com.loopers.interfaces.api.ApiResponse;
 import com.loopers.interfaces.api.user.UserV1Dto.UserGetResponse;
-import com.loopers.interfaces.api.user.UserV1Dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,9 +21,9 @@ public class UserV1Controller implements UserV1ApiSpec {
 
   @Override
   @PostMapping
-  public ApiResponse<UserV1Dto.UserResponse> createUser(@RequestBody @Validated UserV1Dto.UserRequest request) {
+  public ApiResponse<UserV1Dto.Resister.UserResponse> createUser(@RequestBody @Validated UserV1Dto.Resister.UserRequest request) {
     UserInfo user = userFacade.createUser(request.to());
-    return ApiResponse.success(UserResponse.from(user));
+    return ApiResponse.success(UserV1Dto.Resister.UserResponse.from(user));
   }
 
   @Override

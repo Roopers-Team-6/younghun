@@ -35,7 +35,7 @@ public class UserServiceIntegrationTest {
 
   @DisplayName("회원가입을 했을때, ")
   @Nested
-  class Create {
+  class JoinTest {
 
     @DisplayName("User 저장이 수행된다.")
     @Test
