@@ -87,7 +87,7 @@ public class UserV1ApiE2ETest {
 
     @DisplayName("회원 가입 시에 성별이 없을 경우, `400 Bad Request` 응답을 반환한다.")
     @Test
-    void return400BadResuest_whenJoinedUserGender() {
+    void throws400BadResuest_whenJoinedUserGender() {
       //arrange
       String userId = "userId";
       String email = "test@test.com";
@@ -152,7 +152,7 @@ public class UserV1ApiE2ETest {
 
     @DisplayName("존재하지 않는 ID 로 조회할 경우, `404 Not Found` 응답을 반환한다.")
     @Test
-    void returnNotFoundException_when_retrieve_not_exits_id() {
+    void throwsNotFoundException_when_retrieve_not_exits_id() {
       //arrange
       String userId = "test";
       String email = "test@test.com";

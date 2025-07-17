@@ -8,7 +8,7 @@ public class UserV1Dto {
   class Resister {
     public record UserRequest(String userId, String email, String birthday, @NotNull Gender gender) {
 
-      public UserInfo to() {
+      public UserInfo toUserInfo() {
         return new UserInfo(
             userId,
             email,

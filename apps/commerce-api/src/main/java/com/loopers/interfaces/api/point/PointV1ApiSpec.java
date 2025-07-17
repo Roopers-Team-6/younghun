@@ -16,4 +16,16 @@ public interface PointV1ApiSpec {
       @Schema(name = "계정 ID", description = "로그인 ID")
       String userId
   );
+
+  @Operation(
+      summary = "포인트 충전",
+      description = "포인트 충전을 합니다."
+  )
+  ApiResponse<PointV1Dto.ChargeResponse> charge(
+      @Schema(name = "계정 ID", description = "로그인 ID")
+      String userId,
+      @Schema(name = "충전할 포인트", description = "충전할 포인트 요청정보")
+      PointV1Dto.ChargeRequest request
+  );
+
 }
