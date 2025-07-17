@@ -15,6 +15,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -112,15 +114,15 @@ public class PointV1ApiE2ETest {
     private static String ENDPOINT_CHARGE = "/api/v1/points/charge";
 
     @DisplayName("존재하는 유저가 1000원을 충전할 경우, 충전된 보유 총량을 응답으로 반환한다.")
-    @Test
-    void returnSavingTotalPoint_whenCharging1000Point() {
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1})
+    void returnSavingTotalPoint_whenCharging1000Point(int point) {
       //arrange
       String userId = "test";
-      int point = 5000;
       HttpHeaders headers = new HttpHeaders();
       headers.add("X-USER-ID", userId);
 
-      userJpaRepository.save(new UserModel(userId,"test@test.com", "2020-01-01", "M"));
+      userJpaRepository.save(new UserModel(userId, "test@test.com", "2020-01-01", "M"));
       pointJpaRepository.save(new PointModel(userId, point));
 
       PointV1Dto.ChargeRequest request = new PointV1Dto.ChargeRequest(1000);
