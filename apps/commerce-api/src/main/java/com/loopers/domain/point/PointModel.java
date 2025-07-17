@@ -20,10 +20,12 @@ public class PointModel extends BaseEntity {
     this.userId = userId;
     this.point = point;
   }
+
   public void charge(int point) {
     if (point <= 0) {
       throw new CoreException(ErrorType.BAD_REQUEST, "0이하로 포인트를 충전할 수 없습니다.");
     }
+    this.point = this.point + point;
   }
 
   public String getUserId() {
