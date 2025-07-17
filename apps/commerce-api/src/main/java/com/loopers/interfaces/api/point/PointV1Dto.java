@@ -13,4 +13,8 @@ public class PointV1Dto {
       );
     }
   }
+
+  public record ChargeResponse(String userId, int point) {}
+
+  public record ChargeRequest(int point) {}
 }
