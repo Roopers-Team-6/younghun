@@ -16,6 +16,11 @@ public class PointModel extends BaseEntity {
   public PointModel() {
   }
 
+  public PointModel(String userId) {
+    this.userId = userId;
+    this.point = 0;
+  }
+
   public PointModel(String userId, int point) {
     this.userId = userId;
     this.point = point;

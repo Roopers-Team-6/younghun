@@ -26,9 +26,7 @@ public class PointRepositoryImpl implements PointRepository {
       return null;
     }
 
-    Optional<PointModel> point = pointRepository.findByUserId(userId);
-
-    return point.get();
+    return pointRepository.findByUserId(userId).orElse(new PointModel(userId));
   }
 
   @Override
@@ -41,7 +39,7 @@ public class PointRepositoryImpl implements PointRepository {
       throw new CoreException(ErrorType.NOT_FOUND, "존재하지 않는 계정으로 충전할 수 없습니다.");
     }
 
-    PointModel model = pointRepository.findByUserId(userId).orElse(new PointModel(userId,0));
+    PointModel model = pointRepository.findByUserId(userId).orElse(new PointModel(userId));
     model.charge(point);
     pointRepository.save(model);
 
