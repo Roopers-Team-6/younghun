@@ -35,7 +35,7 @@ public class PointRepositoryImpl implements PointRepository {
   @Transactional
   public PointModel charge(String userId, int point) {
 
-    List<UserModel> userExists = userRepository.findByUserId(userId);
+    Optional<UserModel> userExists = userRepository.findByUserId(userId);
 
     if (userExists.isEmpty()) {
       throw new CoreException(ErrorType.NOT_FOUND, "존재하지 않는 계정으로 충전할 수 없습니다.");

@@ -21,20 +21,15 @@ public class UserRepositoryImpl implements UserRepository {
 
   @Override
   public void duplicateUserId(String userId) {
-    List<UserModel> exitsUser = repository.findByUserId(userId);
-    if (!exitsUser.isEmpty()) {
+    Optional<UserModel> exitsUser = repository.findByUserId(userId);
+    if (exitsUser.isPresent()) {
       throw new CoreException(ErrorType.BAD_REQUEST, "해당 아이디는 이미 가입이 되어있습니다.");
     }
   }
 
   @Override
   public Optional<UserModel> findByUserId(String userId) {
-    List<UserModel> user = repository.findByUserId(userId);
+    return repository.findByUserId(userId);
 
-    if(user.isEmpty()) {
-      return Optional.empty();
-    }
-
-    return Optional.of(user.get(0));
   }
 }
