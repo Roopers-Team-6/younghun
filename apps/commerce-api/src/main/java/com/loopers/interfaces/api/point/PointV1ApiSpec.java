@@ -28,5 +28,4 @@ public interface PointV1ApiSpec {
       PointV1Dto.ChargeRequest request
   );
 
-
 }

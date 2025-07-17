@@ -26,5 +26,4 @@ public interface UserV1ApiSpec {
       String userId
   );
 
-
 }
