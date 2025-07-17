@@ -5,8 +5,13 @@ import static com.loopers.interfaces.api.ApiResponse.Metadata.Result.SUCCESS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+import com.loopers.domain.point.PointModel;
+import com.loopers.domain.user.UserModel;
+import com.loopers.infrastructure.point.PointJpaRepository;
+import com.loopers.infrastructure.user.UserJpaRepository;
 import com.loopers.interfaces.api.ApiResponse;
 import com.loopers.utils.DatabaseCleanUp;
+import java.time.LocalDateTime;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -24,14 +29,21 @@ import org.springframework.http.ResponseEntity;
 public class PointV1ApiE2ETest {
 
   private final TestRestTemplate testRestTemplate;
+  private final UserJpaRepository userJpaRepository;
+  private final PointJpaRepository pointJpaRepository;
   private final DatabaseCleanUp databaseCleanUp;
 
   @Autowired
   public PointV1ApiE2ETest(
       TestRestTemplate testRestTemplate,
+      UserJpaRepository userJpaRepository,
+      PointJpaRepository pointJpaRepository,
+
       DatabaseCleanUp databaseCleanUp
   ) {
     this.testRestTemplate = testRestTemplate;
+    this.userJpaRepository = userJpaRepository;
+    this.pointJpaRepository = pointJpaRepository;
     this.databaseCleanUp = databaseCleanUp;
   }
 
@@ -53,10 +65,11 @@ public class PointV1ApiE2ETest {
       //arrange
       String userId = "test";
       int point = 5000;
+      userJpaRepository.save(new UserModel(userId, "test@test.com", "2020-01-01", "M"));
+      pointJpaRepository.save(new PointModel(userId, point));
 
       HttpHeaders headers = new HttpHeaders();
       headers.add("X-USER-ID", userId);
-
 
       //act
       ParameterizedTypeReference<ApiResponse<PointV1Dto.PointResponse>> responseType = new ParameterizedTypeReference<>() {
