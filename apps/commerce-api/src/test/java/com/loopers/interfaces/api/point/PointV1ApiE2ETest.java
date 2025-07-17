@@ -15,6 +15,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -102,6 +104,59 @@ public class PointV1ApiE2ETest {
           () -> assertThat(response.getStatusCode().is4xxClientError()).isTrue(),
           () -> assertThat(response.getBody().meta().result()).isEqualTo(FAIL)
 
+      );
+    }
+  }
+
+  @DisplayName("POST /api/v1/points/charge")
+  @Nested
+  class Charge {
+    private static String ENDPOINT_CHARGE = "/api/v1/points/charge";
+
+    @DisplayName("존재하는 유저가 1000원을 충전할 경우, 충전된 보유 총량을 응답으로 반환한다.")
+    @ParameterizedTest
+    @ValueSource(ints = {0, 1})
+    void returnSavingTotalPoint_whenCharging1000Point(int point) {
+      //arrange
+      String userId = "test";
+      HttpHeaders headers = new HttpHeaders();
+      headers.add("X-USER-ID", userId);
+
+      userJpaRepository.save(new UserModel(userId, "test@test.com", "2020-01-01", "M"));
+      pointJpaRepository.save(new PointModel(userId, point));
+
+      PointV1Dto.ChargeRequest request = new PointV1Dto.ChargeRequest(1000);
+
+      //act
+      ParameterizedTypeReference<ApiResponse<PointV1Dto.ChargeResponse>> responseType = new ParameterizedTypeReference<>() {
+      };
+      ResponseEntity<ApiResponse<PointV1Dto.ChargeResponse>> response =
+          testRestTemplate.exchange(ENDPOINT_CHARGE, HttpMethod.POST, new HttpEntity<>(request, headers), responseType);
+
+      //assert
+      assertAll(() -> assertThat(response.getStatusCode().is2xxSuccessful()).isTrue(),
+          () -> assertThat(response.getBody().data().point()).isEqualTo(point + 1000));
+    }
+
+    @DisplayName("존재하지 않는 유저로 요청할 경우, 404 Not Found 응답을 반환한다.")
+    @Test
+    void returnNotFoundException_whenRequestingNonExistentUser() {
+      //arrange
+      String userId = "not";
+      HttpHeaders headers = new HttpHeaders();
+      headers.add("X-USER-ID", userId);
+
+      PointV1Dto.ChargeRequest request = new PointV1Dto.ChargeRequest(100);
+
+      //act
+      ParameterizedTypeReference<ApiResponse<PointV1Dto.PointResponse>> responseType = new ParameterizedTypeReference<>() {
+      };
+      ResponseEntity<ApiResponse<PointV1Dto.PointResponse>> response =
+          testRestTemplate.exchange(ENDPOINT_CHARGE, HttpMethod.POST, new HttpEntity<>(request, headers), responseType);
+
+      //assert
+      assertAll(() -> assertThat(response.getStatusCode().is4xxClientError()).isTrue(),
+          () -> assertThat(response.getBody().meta().result()).isEqualTo(FAIL)
       );
     }
   }

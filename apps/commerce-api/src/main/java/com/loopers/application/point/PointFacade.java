@@ -15,4 +15,10 @@ public class PointFacade {
     PointModel point = pointService.get(userId);
     return PointInfo.from(point);
   }
+
+  public PointInfo charge(String userId, int point) {
+    PointModel model = pointService.charge(userId, point);
+    return PointInfo.from(model);
+  }
+
 }
