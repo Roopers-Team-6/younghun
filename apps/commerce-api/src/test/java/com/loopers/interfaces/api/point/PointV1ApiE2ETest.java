@@ -90,7 +90,7 @@ public class PointV1ApiE2ETest {
 
     @DisplayName("X-USER-ID 헤더가 없을 경우, 400 Bad Request 응답을 반환한다.")
     @Test
-    void returnBadRequest_whenConfirmPoint() {
+    void throwsBadRequest_whenConfirmPoint() {
       //arrange
 
       //act
@@ -140,7 +140,7 @@ public class PointV1ApiE2ETest {
 
     @DisplayName("존재하지 않는 유저로 요청할 경우, 404 Not Found 응답을 반환한다.")
     @Test
-    void returnNotFoundException_whenRequestingNonExistentUser() {
+    void throwsNotFoundException_whenRequestingNonExistentUser() {
       //arrange
       String userId = "not";
       HttpHeaders headers = new HttpHeaders();

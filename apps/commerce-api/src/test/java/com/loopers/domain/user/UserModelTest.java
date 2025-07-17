@@ -8,6 +8,8 @@ import com.loopers.support.error.ErrorType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class UserModelTest {
 
@@ -16,81 +18,11 @@ public class UserModelTest {
   @Nested
   class JoinTest {
 
-    @DisplayName("ID가 영문 10자 이내, 정상적으로 생성된다.")
-    @Test
-    void createUser_alphabeticIdUnderMaxLength_createsUserSuccessfully() {
+    @DisplayName("ID 가 영문 및 숫자 10자 이내 형식에 맞지 않으면, User 객체 생성에 실패한다.")
+    @ParameterizedTest
+    @ValueSource(strings = {"userI123456","_-+=!"," ","12345678901","useruseruser"})
+    void throwBadRequestException_whenUserIdIsAlphaNumericAndLengthAtLeast10(String userId) {
       // arrange
-      String userId = "useruserId";
-      String email = "email@email.com";
-      String birthday = "2020-01-01";
-      String gender = "M";
-      // act
-      UserModel userModel = new UserModel(userId, email, birthday, gender);
-      // assert
-      assertThat(userModel.getUserId().length()).isLessThanOrEqualTo(10);
-    }
-
-    @DisplayName("ID가 숫자 10자 이내가 주어지면, 정상적으로 생성된다.")
-    @Test
-    void createUser_numberIdUnderMaxLength_createsUserSuccessfully() {
-      // arrange
-      String userId = "0123456789";
-      String email = "email@email.com";
-      String birthday = "2020-01-01";
-      String gender = "M";
-      // act
-      UserModel userModel = new UserModel(userId, email, birthday, gender);
-      // assert
-      assertThat(userModel.getUserId().length()).isLessThanOrEqualTo(10);
-    }
-
-    @DisplayName("ID가 숫자와알파벳 혼합 10자 이내가 주어지면, 정상적으로 생성된다.")
-    @Test
-    void createUser_mixedIdUnderMaxLength_createsUserSuccessfully() {
-      // arrange
-      String userId = "userI12345";
-      String email = "email@email.com";
-      String birthday = "2020-01-01";
-      String gender = "M";
-      // act
-      UserModel userModel = new UserModel(userId, email, birthday, gender);
-      // assert
-      assertThat(userModel.getUserId().length()).isLessThanOrEqualTo(10);
-    }
-
-    @DisplayName("ID가 10자 초과시, BAD_REQUEST 예외가 발생한다.")
-    @Test
-    void createUser_nonAlphanumericOrTooLongId_throwsIllegalArgumentException() {
-      // arrange
-      String userId = "userI123456";
-      String email = "email@email.com";
-      String birthday = "2020-01-01";
-      String gender = "M";
-      // act
-      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birthday, gender));
-      // assert
-      assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
-    }
-
-    @DisplayName("ID는 공백으로 생성할 수 없습니다.")
-    @Test
-    void throwsBadRequestException_whenIdIsBlank() {
-      // arrange
-      String userId = "  ";
-      String email = "email@email.com";
-      String birthday = "2020-01-01";
-      String gender = "M";
-      // act
-      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birthday, gender));
-      // assert
-      assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
-    }
-
-    @DisplayName("ID는 숫자,알파벳이외의 문자로 생성할 수 없습니다.")
-    @Test
-    void throwsBadRequestException_whenIdIsDifferentWord() {
-      // arrange
-      String userId = "#@!$]";
       String email = "email@email.com";
       String birthday = "2020-01-01";
       String gender = "M";
@@ -101,11 +33,13 @@ public class UserModelTest {
     }
 
     @DisplayName("이메일형식이 틀리면, BAD_REQUEST 예외가 발생합니다.")
-    @Test
-    void throwsBadRequestException_whenEmailIsWrongPattern() {
+    @ParameterizedTest
+    @ValueSource(strings = {"email", // ID만 존재하는 경우
+                            "email@" // @까지 존재하는 경우"
+                 })
+    void throwsBadRequestException_whenEmailIsWrongPattern(String email) {
       // arrange
       String userId = "userId1";
-      String email = "email";
       String birthday = "2020-01-01";
       String gender = "M";
       // act
