@@ -30,15 +30,10 @@ public class PointV1Controller implements PointV1ApiSpec {
   @PostMapping("/charge")
   public ApiResponse<PointV1Dto.ChargeResponse> charge(@RequestHeader(name = "X-USER-ID") String userId,
                                                        @RequestBody PointV1Dto.ChargeRequest request) {
-
-    if(userId.equals("not")) {
-      throw new CoreException(ErrorType.NOT_FOUND, "존재하지 않는 계정입니다.");
-    }
+    PointInfo pointInfo = pointFacade.charge(userId, request.point());
 
     return ApiResponse.success(
-        new PointV1Dto.ChargeResponse(
-            userId, 5000 + request.point()
-        )
+        PointV1Dto.ChargeResponse.toDto(pointInfo)
     );
   }
 

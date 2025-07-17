@@ -22,8 +22,9 @@ public class PointModelTest {
     void returnBadRequest_whenChargingZeroOrLessPoints(int point) {
       // arrange
       String userId = "test";
+      PointModel model = new PointModel(userId, point);
       // act
-      CoreException result = assertThrows(CoreException.class, () -> new PointModel(userId, point));
+      CoreException result = assertThrows(CoreException.class, () -> model.charge(point));
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }

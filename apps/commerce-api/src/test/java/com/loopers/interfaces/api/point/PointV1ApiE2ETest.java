@@ -120,6 +120,7 @@ public class PointV1ApiE2ETest {
       HttpHeaders headers = new HttpHeaders();
       headers.add("X-USER-ID", userId);
 
+      userJpaRepository.save(new UserModel(userId,"test@test.com", "2020-01-01", "M"));
       pointJpaRepository.save(new PointModel(userId, point));
 
       PointV1Dto.ChargeRequest request = new PointV1Dto.ChargeRequest(1000);

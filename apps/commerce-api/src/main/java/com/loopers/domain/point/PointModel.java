@@ -17,11 +17,13 @@ public class PointModel extends BaseEntity {
   }
 
   public PointModel(String userId, int point) {
+    this.userId = userId;
+    this.point = point;
+  }
+  public void charge(int point) {
     if (point <= 0) {
       throw new CoreException(ErrorType.BAD_REQUEST, "0이하로 포인트를 충전할 수 없습니다.");
     }
-    this.userId = userId;
-    this.point = point;
   }
 
   public String getUserId() {
@@ -39,4 +41,5 @@ public class PointModel extends BaseEntity {
   public void setPoint(int point) {
     this.point = point;
   }
+
 }

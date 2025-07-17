@@ -14,7 +14,11 @@ public class PointV1Dto {
     }
   }
 
-  public record ChargeResponse(String userId, int point) {}
+  public record ChargeResponse(String userId, int point) {
+      public static ChargeResponse toDto(PointInfo pointInfo) {
+        return new ChargeResponse(pointInfo.userId(), pointInfo.point());
+    }
+  }
 
   public record ChargeRequest(int point) {}
 }
