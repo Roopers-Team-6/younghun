@@ -1,6 +1,8 @@
 package com.loopers.domain.point;
 
 import com.loopers.domain.BaseEntity;
+import com.loopers.support.error.CoreException;
+import com.loopers.support.error.ErrorType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
@@ -15,6 +17,9 @@ public class PointModel extends BaseEntity {
   }
 
   public PointModel(String userId, int point) {
+    if (point <= 0) {
+      throw new CoreException(ErrorType.BAD_REQUEST, "0이하로 포인트를 충전할 수 없습니다.");
+    }
     this.userId = userId;
     this.point = point;
   }
