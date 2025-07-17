@@ -6,7 +6,7 @@ public class PointV1Dto {
 
   public record PointResponse(String userId, int point) {
 
-    public static PointResponse toDto(PointInfo pointInfo) {
+    public static PointResponse from(PointInfo pointInfo) {
       return new PointResponse(
           pointInfo.userId(),
           pointInfo.point()
@@ -15,7 +15,7 @@ public class PointV1Dto {
   }
 
   public record ChargeResponse(String userId, int point) {
-      public static ChargeResponse toDto(PointInfo pointInfo) {
+      public static ChargeResponse from(PointInfo pointInfo) {
         return new ChargeResponse(pointInfo.userId(), pointInfo.point());
     }
   }

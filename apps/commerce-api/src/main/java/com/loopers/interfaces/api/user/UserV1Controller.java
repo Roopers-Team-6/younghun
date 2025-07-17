@@ -22,7 +22,7 @@ public class UserV1Controller implements UserV1ApiSpec {
   @Override
   @PostMapping
   public ApiResponse<UserV1Dto.Resister.UserResponse> createUser(@RequestBody @Validated UserV1Dto.Resister.UserRequest request) {
-    UserInfo user = userFacade.createUser(request.to());
+    UserInfo user = userFacade.createUser(request.toUserInfo());
     return ApiResponse.success(UserV1Dto.Resister.UserResponse.from(user));
   }
 
