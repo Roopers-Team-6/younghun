@@ -3,6 +3,7 @@ package com.loopers.domain.point;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
 
+import com.loopers.domain.point.embeded.Point;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import org.junit.jupiter.api.DisplayName;
@@ -21,10 +22,8 @@ public class PointModelTest {
     @ValueSource(ints = {-1, 0})
     void returnBadRequest_whenChargingZeroOrLessPoints(int point) {
       // arrange
-      String userId = "test";
-      PointModel model = new PointModel(userId, point);
       // act
-      CoreException result = assertThrows(CoreException.class, () -> model.charge(point));
+      CoreException result = assertThrows(CoreException.class, () -> new Point().add(point));
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }

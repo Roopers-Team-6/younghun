@@ -79,7 +79,7 @@ public class PointServiceIntegrationTest {
     @Test
     void returnNotFoundException_whenChargingWithNonExistentUserId() {
       //arrange
-      String userId = "notExistent";
+      String userId = "notExist";
       int point = 5000;
       // act
       CoreException result = assertThrows(CoreException.class, () -> pointService.charge(userId, point));
