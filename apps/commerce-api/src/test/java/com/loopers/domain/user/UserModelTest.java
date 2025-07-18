@@ -3,6 +3,9 @@ package com.loopers.domain.user;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
 
+import com.loopers.domain.user.embeded.BirthDay;
+import com.loopers.domain.user.embeded.Email;
+import com.loopers.domain.user.embeded.UserId;
 import com.loopers.support.error.CoreException;
 import com.loopers.support.error.ErrorType;
 import org.junit.jupiter.api.DisplayName;
@@ -23,11 +26,9 @@ public class UserModelTest {
     @ValueSource(strings = {"userI123456","_-+=!"," ","12345678901","useruseruser"})
     void throwBadRequestException_whenUserIdIsAlphaNumericAndLengthAtLeast10(String userId) {
       // arrange
-      String email = "email@email.com";
-      String birthday = "2020-01-01";
-      String gender = "M";
+
       // act
-      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birthday, gender));
+      CoreException result = assertThrows(CoreException.class, () -> new UserId(userId));
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
@@ -39,11 +40,8 @@ public class UserModelTest {
                  })
     void throwsBadRequestException_whenEmailIsWrongPattern(String email) {
       // arrange
-      String userId = "userId1";
-      String birthday = "2020-01-01";
-      String gender = "M";
       // act
-      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birthday, gender));
+      CoreException result = assertThrows(CoreException.class, () -> new Email(email));
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
@@ -52,16 +50,11 @@ public class UserModelTest {
     @Test
     void throwsBadRequestException_whenBirthIsWrongPattern() {
       // arrange
-      String userId = "userId1";
-      String email = "email@email.com";
       String birth = "wrong";
-      String gender = "M";
       // act
-      CoreException result = assertThrows(CoreException.class, () -> new UserModel(userId, email, birth, gender));
+      CoreException result = assertThrows(CoreException.class, () -> new BirthDay(birth));
       // assert
       assertThat(result.getErrorType()).isEqualTo(ErrorType.BAD_REQUEST);
     }
-
-
   }
 }

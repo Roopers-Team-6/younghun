@@ -1,8 +1,8 @@
 package com.loopers.domain.point;
 
 import com.loopers.domain.BaseEntity;
-import com.loopers.support.error.CoreException;
-import com.loopers.support.error.ErrorType;
+import com.loopers.domain.point.embeded.Point;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
@@ -11,26 +11,24 @@ import jakarta.persistence.Table;
 public class PointModel extends BaseEntity {
 
   private String userId;
-  private int point;
+  @Embedded
+  private Point point;
 
   public PointModel() {
   }
 
   public PointModel(String userId) {
     this.userId = userId;
-    this.point = 0;
+    this.point = new Point();
   }
 
   public PointModel(String userId, int point) {
     this.userId = userId;
-    this.point = point;
+    this.point = new Point(point);
   }
 
   public void charge(int point) {
-    if (point <= 0) {
-      throw new CoreException(ErrorType.BAD_REQUEST, "0이하로 포인트를 충전할 수 없습니다.");
-    }
-    this.point = this.point + point;
+    this.point = this.point.add(point);
   }
 
   public String getUserId() {
@@ -42,11 +40,8 @@ public class PointModel extends BaseEntity {
   }
 
   public int getPoint() {
-    return point;
+    return point.getPoint();
   }
 
-  public void setPoint(int point) {
-    this.point = point;
-  }
 
 }
