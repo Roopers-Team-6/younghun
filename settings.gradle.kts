@@ -1,4 +1,4 @@
-rootProject.name = "dragon_e-commerce"
+rootProject.name = "loopers-java-spring-template"
 
 include(
     ":apps:commerce-api",
