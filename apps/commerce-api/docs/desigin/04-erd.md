@@ -132,8 +132,8 @@ PAYMENT {
 BRAND ||--o{PRODUCT : has
 PRODUCT || -- || STOCK : has
 
-PRODUCT_LIKE || -- o{ PRODUCT : reference
-PRODUCT_LIKE || -- o{ MEMBER : reference
+PRODUCT || -- o{PRODUCT_LIKE  : reference
+MEMBER || -- o{PRODUCT_LIKE : reference
 
 MEMBER || -- o{ POINT : has
 
