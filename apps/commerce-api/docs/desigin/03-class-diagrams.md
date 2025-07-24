@@ -60,6 +60,7 @@ class Order {
   - status: OrderStatus
   - orderItem: List<OrderItem>
   - userId: String
+  - memo: String
 
   - createdAt: LocalDateTime
   - updatedAt: LocalDateTime
@@ -71,13 +72,13 @@ class Order {
 class OrderHistory { 
   - id: Long
   - orderNumber: String
-  - orderId : String
   - address: String
   - productName: String
   - status: OrderStatus
   - orderItem: List<OrderItem>
   - userId: String
-
+  - memo: String
+  
   - createdAt: LocalDateTime
   - updatedAt: LocalDateTime  
 }
