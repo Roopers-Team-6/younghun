@@ -14,7 +14,8 @@ sequenceDiagram
     BS -->> BP: 브랜드 정보 조회
     activate BP
     alt 브랜드가 존재하지 않음
-    BP -->> BS: 404 Not Found Exception
+    BP -->> BS: Optional.empty()
+    BS -->> U: 404 Not Found Exception
     else 브랜드가 존재함
     BP -->> BS: 브랜드 정보 반환
     deactivate BP
