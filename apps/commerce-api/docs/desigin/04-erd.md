@@ -37,7 +37,7 @@ STOCK {
 }
 
 %%좋아요
-LIKE {
+PRODUCT_LIKE {
  BIGINT member_id PK,FK "계정 아이디"
  BIGINT product_id PK,FK "상품아이디"
  
@@ -75,7 +75,9 @@ ORDER {
  VARCHAR(25) order_number UK "주문 번호"
  BIGINT member_id FK "계정아이디" 
  VARCHAR(10) status "주문상태 : 주문 / 주문 취소 / 결제"
-     
+ 
+ BIGINT total_price "주문 가격"    
+        
  VARCHAR(200) address "주문지 주소"
  TEXT memo "주문시 요청사항(메모)"
 
@@ -91,7 +93,8 @@ ORDER_ITEM {
  BIGINT product_id FK "상품 아이디"
     
  BIGINT quantity "주문 수량"
-
+ BIGINT unit_price "상품 단가"
+ 
  TimeStamp created_at "생성 시간"
  TimeStamp updated_at "수정 시간"
  TimeStamp deleted_at "삭제 시간"
@@ -104,7 +107,8 @@ ORDER_HISTORY {
  VARCHAR(25) order_number "주문 번호"
  BIGINT member_id FK "계정아이디"
  VARCHAR(10) status "주문상태 : 주문 / 주문 취소 / 결제"
-
+ 
+ BIGINT total_price "주문 가격"
  TEXT address "주문지 주소"
 
  TEXT memo "주문시 요청사항(메모)"
@@ -119,6 +123,7 @@ PAYMENT {
  VARCHAR(25) order_number "주문 번호"
  BIGINT member_id FK "계정아이디"
  TEXT description "설명"
+ BIGINT payment_amount "결제 금액"
  TimeStamp created_at "생성 시간"
  TimeStamp updated_at "수정 시간"
  TimeStamp deleted_at "삭제 시간"    
@@ -127,8 +132,8 @@ PAYMENT {
 BRAND ||--o{PRODUCT : has
 PRODUCT || -- || STOCK : has
 
-LIKE || -- o{ PRODUCT : reference
-LIKE || -- o{ MEMBER : reference
+PRODUCT_LIKE || -- o{ PRODUCT : reference
+PRODUCT_LIKE || -- o{ MEMBER : reference
 
 MEMBER || -- o{ POINT : has
 
