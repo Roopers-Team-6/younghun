@@ -39,8 +39,6 @@ class Product {
     - createdAt: LocalDateTime
     - updatedAt: LocalDateTime
     - deletedAt: LocalDateTime
-
-    + decrease(prductId: Long, prductStock: int): int
 }
 
 class Stock { 
@@ -49,6 +47,8 @@ class Stock {
  - createdAt: LocalDateTime
  - updatedAt: LocalDateTime
  - deletedAt: LocalDateTime
+ 
+ + decrease(prductId: Long, prductStock: int): int
 }
 
 
