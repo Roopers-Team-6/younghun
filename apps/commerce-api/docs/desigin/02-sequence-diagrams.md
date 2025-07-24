@@ -133,3 +133,100 @@ end
 deactivate LR
 deactivate LS
 ```
+
+## 주문/결제
+### 주문 생성
+```mermaid
+sequenceDiagram
+actor C as Client
+participant OC as OrderController
+participant OS as OrderService
+participant PS as ProductService
+participant PAS as PaymentService
+participant POS as PointService
+
+C -->> OC: 주문 요청
+activate OC
+OC -->> OS: 인증요청
+activate OS
+alt 인증이 실패하는 경우
+    OS -->> OC: 401 Unauthorized
+else
+    OS -->> OC: 인증 객체 전달
+end
+deactivate OS
+deactivate OC
+
+OS -->> PS: 해당하는 상품이 있는지 확인
+activate OS
+activate PS
+alt 상품이 존재하지 않는 경우
+PS -->> OS: 404 NotFound Exception
+else
+PS -->> OS: 상품 정보 리턴
+end
+deactivate PS
+OS -->> OS: 상태값: 주문중 변경  
+deactivate OS
+
+OS -->> PS: 상품의 재고가 있는지 확인
+activate OS
+activate PS
+alt 재고가 존재하지 않는 경우 (재고가 0이하)
+  PS -->> OS: 409 Conflict
+else
+  PS -->> OS: 상품 재고 리턴
+  deactivate PS
+  OS -->> PAS: 결재 요청 (로그인 계정만)
+  deactivate OS
+  activate PAS
+end
+
+PAS -->> POS: 포인트 확인
+activate POS
+
+alt 소지 포인트 보다 상품 가격이 높은 경우 
+POS -->> PAS: 400 Bad Request
+else
+POS -->> PAS: 포인트 차감 (소지 포인트 - 상품가격)    
+end
+deactivate POS
+
+PAS -->> OS: 결제 완료 상태값 변경 요청
+activate OS
+deactivate PAS
+PS -->> PS: 상품 갯수 차감 (상품 재고-)
+OS -->> OS: 상태값: 결재 완료 변경 
+deactivate OS
+```
+### 주문 취소
+
+```mermaid
+sequenceDiagram
+actor C as Client
+participant OC as OrderController
+participant OS as OrderService
+participant OR as OrderRepository 
+C -->> OC: 주문 취소 요청
+activate OC
+OC -->> OS: 인증요청
+activate OS
+alt 인증이 실패하는 경우
+    OS -->> OC: 401 Unauthorized
+else
+    OS -->> OC: 인증 객체 전달
+end
+deactivate OS
+deactivate OC
+
+OS -->> OR: 주문 데이터 확인
+activate OS
+activate OR
+alt 주문데이터가 없는 경우
+     OR -->> OS: optional.empty()
+else
+    OR -->> OS: 상태값: 주문 취소 변경
+end
+deactivate OS
+deactivate OR    
+```
