@@ -74,3 +74,63 @@ sequenceDiagram
     deactivate PP
     deactivate PS
 ```
+
+## 좋아요
+### 좋아요 등록/해제
+
+```mermaid
+sequenceDiagram 
+actor  C as client
+participant LC AS LikeController
+participant LS AS LikeService
+participant PS AS ProductService
+participant LR AS LikeRepository
+
+C -->> LC: 좋아요 등록/해제 요청
+activate LC
+LC -->> LS: 인증요청
+activate LS
+alt 인증이 실패하는 경우 
+LS -->> LC: 401 Unauthorized
+else
+LS -->> LC: 인증 객체 전달    
+end
+deactivate LS
+deactivate LC
+
+%% 상품이 존재하는지 조사
+LS -->> PS: 좋아요 등록/해제 할 수 있는 상품 확인
+activate LS
+activate PS
+alt 상품이 존재하지 않는 경우 
+PS -->> LS: 404 NotFoundException
+else
+PS -->> LS: 상품 정보 리턴    
+end
+deactivate LS
+deactivate PS
+
+%% 좋아요 등록
+LS -->> LR: 좋아요 등록 여부 확인
+activate LS
+activate LR
+alt 이미 등록이 되어 있는 경우
+LR -->> LS: 좋아요 데이터 리턴
+else
+LR -->> LS: 좋아요 데이터 save()   
+end
+deactivate LR
+deactivate LS
+
+%% 좋아요 등록 해제
+LS -->> LR: 좋아요 해제 여부 확인
+activate LS
+activate LR
+alt 좋아요가 등록이 되어있지 않는 경우
+LR -->> LS: Optional.empty()
+else
+LR -->> LS: 좋아요 데이터 삭제 delete()
+end
+deactivate LR
+deactivate LS
+```
