@@ -61,7 +61,7 @@ class Order {
   - orderItem: List<OrderItem>
   - userId: String
   - memo: String
-
+  - totalPrice: BigInt
   - createdAt: LocalDateTime
   - updatedAt: LocalDateTime
   - deletedAt: LocalDateTime
@@ -76,6 +76,7 @@ class OrderHistory {
   - productName: String
   - status: OrderStatus
   - orderItem: List<OrderItem>
+  - totalPrice: BigInt
   - userId: String
   - memo: String
   
@@ -87,6 +88,7 @@ class OrderItem {
   - id: Long
   - productId: Long
   - quantity: int
+  - unitPrice: BigInt
   - createdAt: LocalDateTime
   - updatedAt: LocalDateTime
   - deletedAt: LocalDateTime
@@ -96,7 +98,7 @@ class Payment {
   - id: Long
   - userId: String
   - orderNumber: String
-  - productName: String
+  - paymentAmout: BigInt
   - description: String
   - createdAt: LocalDateTime
   - updatedAt: LocalDateTime
