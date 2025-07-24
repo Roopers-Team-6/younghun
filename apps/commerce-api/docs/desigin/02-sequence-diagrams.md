@@ -15,7 +15,7 @@ sequenceDiagram
     activate BP
     alt 브랜드가 존재하지 않음
     BP -->> BS: Optional.empty()
-    BS -->> U: 404 Not Found Exception
+
     else 브랜드가 존재함
     BP -->> BS: 브랜드 정보 반환
     deactivate BP
@@ -44,17 +44,17 @@ sequenceDiagram
 
    U ->> PS: 상품 목록 조회 요청
    activate PS
-   activate PP
    alt 필터링 조건에 만족하지 않을시 (브랜드명,좋아요,생성일,상품명...)
       PS ->> PP: 필터링 조건으로 조회
+   activate PP
       PP -->> PS: 빈 리스트 반환
    else 필터링 조건에 만족할시
       PP -->> PS: 상품 목록 리스트 반환
    end
-    deactivate PP
-    deactivate PS
+   deactivate PP
+   deactivate PS
 ```
-## 상품 상세조회
+### 상품 상세조회
 ```mermaid
 sequenceDiagram
     actor U as Client
@@ -67,7 +67,6 @@ sequenceDiagram
     activate PP
     alt 상품 ID가 존재하지 않는 경우
     PP ->> PS: Optional.empty()
-    PS ->> U: 404 NotFoundException
     else 상품 ID가 존재하는 경우
     PP -->> PS: 상품 정보 반환
     end
