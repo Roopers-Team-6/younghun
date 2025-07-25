@@ -91,15 +91,12 @@ LC -->> LS: 인증요청
 activate LS
 alt 인증이 실패하는 경우 
 LS -->> LC: 401 Unauthorized
-else
-LS -->> LC: 인증 객체 전달    
-end
-deactivate LS
 deactivate LC
-
+else
 %% 상품이 존재하는지 조사
 LS -->> PS: 좋아요 등록/해제 할 수 있는 상품 확인
-activate LS
+end
+
 activate PS
 alt 상품이 존재하지 않는 경우 
 PS -->> LS: 404 NotFoundException
@@ -148,30 +145,28 @@ participant POS as PointService
 C -->> OC: 주문 요청
 activate OC
 OC -->> OS: 인증요청
-activate OS
+    activate OS
 alt 인증이 실패하는 경우
-    OS -->> OC: 401 Unauthorized
+OS -->> OC: 401 Unauthorized
+  deactivate OC
 else
-    OS -->> OC: 인증 객체 전달
-end
-deactivate OS
-deactivate OC
-
 OS -->> PS: 해당하는 상품이 있는지 확인
-activate OS
-activate PS
+  activate PS
+end
+
 alt 상품이 존재하지 않는 경우
 PS -->> OS: 404 NotFound Exception
 else
 PS -->> OS: 상품 정보 리턴
+  deactivate PS
 end
-deactivate PS
-OS -->> OS: 상태값: 주문중 변경  
-deactivate OS
+
+    OS -->> OS: 상태값: 주문중 변경  
+  deactivate OS
 
 OS -->> PS: 상품의 재고가 있는지 확인
-activate OS
-activate PS
+  activate OS
+  activate PS
 alt 재고가 존재하지 않는 경우 (재고가 0이하)
   PS -->> OS: 409 Conflict
 else
@@ -213,15 +208,12 @@ OC -->> OS: 인증요청
 activate OS
 alt 인증이 실패하는 경우
     OS -->> OC: 401 Unauthorized
+    deactivate OC
 else
-    OS -->> OC: 인증 객체 전달
+    OS -->> OR: 주문 데이터 확인
+    activate OR
 end
-deactivate OS
-deactivate OC
 
-OS -->> OR: 주문 데이터 확인
-activate OS
-activate OR
 alt 주문데이터가 없는 경우
      OR -->> OS: optional.empty()
 else
