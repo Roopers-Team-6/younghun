@@ -3,7 +3,9 @@
 ```mermaid
 classDiagram
 
+
 %% 계정        
+
 class User {
    - id: UserId
    - email: Email
@@ -14,6 +16,7 @@ class User {
    - deletedAt: LocalDateTime
 }
 
+
 %% 좋아요
 class Like {
     - user: User
@@ -21,6 +24,7 @@ class Like {
     - createdAt: LocalDateTime
     - updatedAt: LocalDateTime
 }
+
 
 %% 브랜드
 class Brand {
@@ -34,6 +38,7 @@ class Brand {
     + add(productId: Long, name: ProductName): void 
 }
 
+
 %% 상품
 class Product {
     - id: Long
@@ -44,6 +49,7 @@ class Product {
     - updatedAt: LocalDateTime
     - deletedAt: LocalDateTime
 }
+
 
 %% 재고
 class Stock { 
@@ -56,6 +62,7 @@ class Stock {
  
  + decrease(prductId: Long, prductStock: int): int
 }
+
 
 %% 주문
 class Order {
@@ -73,6 +80,7 @@ class Order {
   
 }
 
+
 %% 주문 내역
 class OrderHistory { 
   - id: Long
@@ -89,16 +97,19 @@ class OrderHistory {
   - updatedAt: LocalDateTime  
 }
 
+
 %% 주문 상품
 class OrderItem {
   - id: Long
   - product: Product
+
   - quantity: int
   - unitPrice: BigInt
   - createdAt: LocalDateTime
   - updatedAt: LocalDateTime
   - deletedAt: LocalDateTime
 }
+
 
 %% 결제
 class Payment { 
@@ -111,6 +122,7 @@ class Payment {
   - updatedAt: LocalDateTime
   - deletedAt: LocalDateTime
 }
+
 
 %% 포인트
 class Point { 
