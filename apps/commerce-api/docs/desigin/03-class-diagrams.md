@@ -3,6 +3,9 @@
 ```mermaid
 classDiagram
 
+
+%% 계정        
+
 class User {
    - id: UserId
    - email: Email
@@ -13,13 +16,17 @@ class User {
    - deletedAt: LocalDateTime
 }
 
+
+%% 좋아요
 class Like {
-    - userId: Long
-    - productId: Long
+    - user: User
+    - product: Product
     - createdAt: LocalDateTime
     - updatedAt: LocalDateTime
 }
 
+
+%% 브랜드
 class Brand {
     - id: Long
     - name: BrandName
@@ -31,6 +38,8 @@ class Brand {
     + add(productId: Long, name: ProductName): void 
 }
 
+
+%% 상품
 class Product {
     - id: Long
     - name: ProductName
@@ -41,8 +50,11 @@ class Product {
     - deletedAt: LocalDateTime
 }
 
+
+%% 재고
 class Stock { 
  - id: Long
+ - product: Product
  - stock: ProductStock
  - createdAt: LocalDateTime
  - updatedAt: LocalDateTime
@@ -52,14 +64,14 @@ class Stock {
 }
 
 
-
+%% 주문
 class Order {
   - id: Long
   - orderNumber: String
   - address: String
   - status: OrderStatus
   - orderItem: List<OrderItem>
-  - userId: String
+  - user: User
   - memo: String
   - totalPrice: BigInt
   - createdAt: LocalDateTime
@@ -69,6 +81,7 @@ class Order {
 }
 
 
+%% 주문 내역
 class OrderHistory { 
   - id: Long
   - orderNumber: String
@@ -84,9 +97,12 @@ class OrderHistory {
   - updatedAt: LocalDateTime  
 }
 
+
+%% 주문 상품
 class OrderItem {
   - id: Long
-  - productId: Long
+  - product: Product
+
   - quantity: int
   - unitPrice: BigInt
   - createdAt: LocalDateTime
@@ -94,9 +110,11 @@ class OrderItem {
   - deletedAt: LocalDateTime
 }
 
+
+%% 결제
 class Payment { 
   - id: Long
-  - userId: String
+  - user: User
   - orderNumber: String
   - paymentAmout: BigInt
   - description: String
@@ -105,6 +123,8 @@ class Payment {
   - deletedAt: LocalDateTime
 }
 
+
+%% 포인트
 class Point { 
   - id: Long
   - userId: String
